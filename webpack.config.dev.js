@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const DotEnv = require("dotenv-webpack");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 //con webpack, damos soporte a nuestro codigo JS para que pueda ser
 //ejecutado en cualquier navegador
 
@@ -14,7 +16,8 @@ module.exports = {
     assetModuleFilename: "assets/images/[hash][ext][query]", //para copiar las images a dist agregamos esta linea y la configuracion del copy plugin abajo
   },
   mode: "development",
-  watch: true,
+  devtool: "source-map",
+  //   watch: true, No need to use this configuration option when using webpack dev server
   resolve: {
     extensions: [".js"], //extensiones con las que vamos a trabajar
     alias: {
@@ -82,6 +85,7 @@ module.exports = {
       ],
     }),
     new DotEnv(),
+    new BundleAnalyzerPlugin(),
   ],
   //se elimina en la configuracion de desarrollo de webpack
   //   optimization: {
@@ -91,6 +95,12 @@ module.exports = {
   //       new TerserPlugin(), //plugin that uses terser to minify/minimize js files
   //     ],
   //   },
+  devServer: {
+    static: path.join(__dirname, "dist"),
+    compress: true,
+    historyApiFallback: true,
+    port: 3006,
+  },
 };
 
 //npx  webpack --mode production --config webpack.config.js para ejecutar la compilacion del codigo usando este archivo de configuracion
