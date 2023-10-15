@@ -1,0 +1,8 @@
+{
+    "presets": [
+        "@babel/preset-env"  //para trabajar con js moderno
+    ],
+    "plugins": [
+        "@babel/plugin-transform-runtime" //permite usar asyn/await en nuestro codigo 
+    ]
+}
